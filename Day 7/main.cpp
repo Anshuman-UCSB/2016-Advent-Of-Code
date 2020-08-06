@@ -119,5 +119,12 @@ void part1(){
 //not 108, 69
 
 void part2(){
-    cout << isSSL("dnwtsgywerfamfv[gwrhdujbiacaowtcirq]bjbhmuxdcacsenlctwgh") << endl;
+    int ans = 0;
+    for(string ip: read()){
+        if(isSSL(ip)){
+            ans++;
+        }
+    }
+    cout<<ans<<endl;
+    // cout << isSSL("dnwtsgywerfamfv[gwrhdujbiacaowtcirq]bjbhmuxdcacsenlctwgh") << endl;
 }
