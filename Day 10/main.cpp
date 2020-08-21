@@ -48,8 +48,6 @@ void act(map<string, Cell>& m, string id) {
             int high = max(m[id].data[0], m[id].data[1]);
             if(low == 17 && high == 61){
                 cout<<"Part 1 answer is "<<id<<endl;
-                string trash;
-                cin>>trash;
             }
             m[m[id].lowId].data.push_back(low);
             cout << "Giving " << min(m[id].data[0], m[id].data[1])<<" from "<<id<<" to "<<m[id].lowId<<endl;
