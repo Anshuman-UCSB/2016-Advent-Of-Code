@@ -1,0 +1,45 @@
+Any complete pairs on floor 1 add 12 steps to the solution
+
+Complete pairs on floor 2 add 8 steps
+
+Complete pairs on floor 3 add 4 steps
+
+The first floor contains a thulium generator, a thulium-compatible microchip, a plutonium generator, and a strontium generator.
+The second floor contains a plutonium-compatible microchip and a strontium-compatible microchip.
+The third floor contains a promethium generator, a promethium-compatible microchip, a ruthenium generator, and a ruthenium-compatible microchip.
+The fourth floor contains nothing relevant.
+
+Thulium - T
+Plutonium - P
+Strontium - S
+Promethium - O
+Ruthenium - R
+
+A unpaired Chip (XC) cannot be with another generator (YG)
+Two generators (XG, YG) are safe
+Two unpaired chips (XC, YC) are safe, as long as there is no generator (ZG)
+A pair is safe (XC XG) but an unpaired chip cannot be on the same floor
+
+Steps - 0
+4: 
+3: OG OC RG RC
+2: PC SC
+1: TG TC PG SG
+
+Steps - 8
+4: 
+3: 
+2: PC SC
+1: TG TC PG SG
+
+Steps - 20
+4: 
+3: 
+2: PC SC
+1: PG SG
+
+Steps - 20
+4: 
+3: 
+2: PC SC
+1: PG SG
