@@ -94,7 +94,7 @@ int main(){
         dist++;
         cout<<"\033[2J";
         printMap(m);
-        // cin>>trash;
+        cin>>trash;
     }
 
     cout<<"\nIt took "<<m[make_pair(31,39)].dist<<" steps."<<endl;
