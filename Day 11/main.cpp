@@ -1,112 +1,195 @@
 #include <iostream>
 #include <vector>
 #include <sstream>
+#include <algorithm>
 #include <fstream>
+#include <utility>
+#include <set>
+#include <queue>
 
 using namespace std;
 
 struct State{
-    vector<vector<string>> floors;
-    int elev;
-    int steps;
+    vector<pair<int, int>> f;
+    int elevator, step;
     State(){
-        steps = 0;
-        elev = 0;
-        for(int i = 0;i<4;i++){
-            floors.push_back(vector<string>());
+        elevator = 1;
+        step = 0;
+    }
+    State(const State& old){
+        elevator = old.elevator;
+        step = old.step;
+        for(auto p: old.f){
+            f.push_back(p);
         }
     }
-
-    State(const State& old){
-        this->steps = old.steps + 1;
-        elev = old.elev;
-        for(int i = 0;i<4;i++){
-            floors.push_back(vector<string>());
-            floors[i] = old.floors[i];
+    bool isValid(){
+        for(auto& p: f){
+            if(p.first != p.second){
+                for(auto& t: f){
+                    if(t.second == p.first){
+                        return false;
+                    }
+                }
+            }
         }
+        return true;
     }
 
     string toStr(){
+        sort(f.begin(), f.end());
         stringstream ss;
-        ss<<elev<<"|";
-        for(int i = 0;i<4;i++){
-            ss<<i;
-            for(auto& e: floors[i]){
-                ss<<e;
-            }
+        ss<<elevator<<"_";
+        for(auto& p: f){
+            ss<<p.first<<","<<p.second<<"_";
         }
         return ss.str();
     }
 };
 
-bool isValidFloor(vector<string>& flr){
-    bool volatileChip = false;
-    bool gen = false;
-    for(auto& s: flr){
-        if(s[1]=='G'){
-            gen = true;
-        }
-    }
-    for(auto& s: flr){
-        
-        if(s[1]=='C'){
-            // cout<<"testing chip "<<s<<endl;
-            bool paired = false;
-            for(auto& c: flr){
-                if(c[0] == s[0] && c[1] == 'G'){
-                    // cout<<"Chip "<<s<<" is paired with "<<c<<endl;
-                    paired = true;
-                    break;
-                }
-            }
-            if(!paired){
-                if(gen){
-                    return false;
-                }
-            }
-        }
-    }
-    return true;
-        
-
+State example(){
+    State s;
+    s.f.push_back(make_pair(1,2));
+    s.f.push_back(make_pair(1,3));
+    return s;
 }
 
-bool isValid(State& inp){
-    for(auto& floor: inp.floors){
-        if(isValidFloor(floor) == false){
-            return false;
-        }
-    }
-    return true;
+State input(){
+    State s;
+    s.f.push_back(make_pair(1,1));
+    s.f.push_back(make_pair(1,1));
+    s.f.push_back(make_pair(1,1));
+    s.f.push_back(make_pair(2,1));
+    s.f.push_back(make_pair(2,1));
+    s.f.push_back(make_pair(3,3));
+    s.f.push_back(make_pair(3,3));
+    return s;
 }
 
-vector<State> variations(State inp){
+vector<State> variation(State& s){
     vector<State> out;
-    int floorNum = inp.elev;
-    
-    //move item up
-    if(floorNum != 3){ //if not on top floor
-        for(int i = 0;i<inp.floors[floorNum].size();i++){
-            State temp(inp);
-            temp.elev++;
-            temp.floors[floorNum+1].push_back(temp.floors[floorNum][i]);
-            temp.floors[floorNum].erase(temp.floors[floorNum].begin + i);
-            if(isValid(temp)){
-                out.push_back(temp);
+
+    //ind, first
+    vector<pair<int, bool>> moveable;
+    for(int i = 0;i<s.f.size();i++){
+        if(s.f[i].first == s.elevator){
+            moveable.push_back(make_pair(i, true));
+        }
+        if(s.f[i].second == s.elevator){
+            moveable.push_back(make_pair(i, false));
+        }
+    }
+    if(s.elevator < 4){
+        // can move up
+        // move 1 item
+        if(moveable.size() >= 1){
+            for(auto& p: moveable){
+                State n(s);
+                if(p.second){
+                    n.f[p.first].first++;
+                }else{
+                    n.f[p.first].second++;
+                }
+                n.elevator++;
+                n.step++;
+                if(n.isValid()){
+                    out.push_back(n);
+                }
+            }
+        }
+        //move 2 items
+        if(moveable.size() >= 2){
+            for(int i =0;i<moveable.size()-1;i++){
+                for(int j = 1;j<moveable.size();j++){
+                    State n(s);
+                    if(moveable[i].second){
+                        n.f[moveable[i].first].first++;
+                    }else{
+                        n.f[moveable[i].first].second++;
+                    }
+                    if(moveable[j].second){
+                        n.f[moveable[j].first].first++;
+                    }else{
+                        n.f[moveable[j].first].second++;
+                    }
+                    n.elevator++;
+                    n.step++;
+                    if(n.isValid()){
+                        out.push_back(n);
+                    }
+                }
             }
         }
     }
+    if(s.elevator > 1){
+        // can move down
+        // move 1 item
+        if(moveable.size() >= 1){
+            for(auto& p: moveable){
+                State n(s);
+                if(p.second){
+                    n.f[p.first].first--;
+                }else{
+                    n.f[p.first].second--;
+                }
+                n.elevator--;
+                n.step++;
+                if(n.isValid()){
+                    out.push_back(n);
+                }
+            }
+        }
+        //move 2 items
+        if(moveable.size() >= 2){
+            for(int i =0;i<moveable.size()-1;i++){
+                for(int j = 1;j<moveable.size();j++){
+                    State n(s);
+                    if(moveable[i].second){
+                        n.f[moveable[i].first].first--;
+                    }else{
+                        n.f[moveable[i].first].second--;
+                    }
+                    if(moveable[j].second){
+                        n.f[moveable[j].first].first--;
+                    }else{
+                        n.f[moveable[j].first].second--;
+                    }
+                    n.elevator--;
+                    n.step++;
+                    if(n.isValid()){
+                        out.push_back(n);
+                    }
+                }
+            }
+        }
+    }
+
+    return out;
 }
 
 int main(){
-    State start;
-    start.floors[0].push_back("HC");
-    start.floors[0].push_back("LC");
-    start.floors[1].push_back("HG");
-    start.floors[2].push_back("LG");
-    cout<<start.toStr()<<endl;
-    cout<<isValid(start)<<endl;
-
-    //an unpaired chip cannot be with a generator
-    
+    set<string> seen;
+    queue<State> tree;
+    // tree.push(example());
+    tree.push(input());
+    seen.insert(tree.front().toStr());
+    //initialization
+    while(seen.find("4_4,4_4,4_4,4_4,4_4,4_4,4_4,4_") == seen.end()){
+        auto variations = variation(tree.front());
+        // cout<<"Checking step "<<tree.front().step<<endl;
+        // cout<<"Variation of size "<<variations.size()<<endl;
+        for(auto& s: variations){
+            if(s.toStr() == "4_4,4_4,4_4,4_4,4_4,4_4,4_4,4_"){
+                cout<<"Took "<<s.step<<" to finish"<<endl;
+                goto end;
+            }
+            // cout<<s.toStr()<<endl;
+            if(seen.insert(s.toStr()).second){
+                tree.push(s);
+            }
+        }
+        tree.pop();
+        // cout<<endl;
+    }
+    end:;
 }
