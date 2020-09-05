@@ -1,4 +1,4 @@
 main:
-	g++ main.cpp md5.cpp -o main
+	g++ part2.cpp md5.cpp -o main
 
 .PHONY: main

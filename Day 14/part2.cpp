@@ -2,17 +2,11 @@
 #include <vector>
 #include <utility>
 #include <fstream>
+#include <fstream>
 #include "md5.h"
 using namespace std;
 
-string part2Hash(string inp){
-    string temp = inp;
-    for(int i = 0;i<2017;i++){
-        temp = md5(temp);
-        // cout<<temp<<endl;
-    }
-    return temp;
-}
+
 
 char hasTriple(string inp){
     for(int i =0;i<inp.size()-2;i++){
@@ -32,27 +26,23 @@ char hasPenta(string inp){
     return 'z';
 }
 
-void generateHashes(int num){
-    ofstream file;
-    file.open("hashes.txt");
-    string base = "ngcjuoqr";
-    for(int i = 0;i<num;i++){
-        file<<part2Hash(base+to_string(i))<<endl;
-    }
-}
 
 int main(){
+    fstream file("hashes.txt");
+    string line;
+    vector<string> raw;
+    while(getline(file,line)){
+        raw.push_back(line);
+    }
     string base = "ngcjuoqr";
-    generateHashes(100000);
-    exit(1);
     int ind = 0;
     vector<int> keys;
     while(keys.size() < 64){
-        string hash = part2Hash(base+to_string(ind));
+        string hash = raw[ind];
         char trp = hasTriple(hash);
         if(trp != 'z'){
             for(int i = 1;i<1000;i++){
-                if(hasPenta(part2Hash(base+to_string(ind+i))) == trp){
+                if(hasPenta(raw[ind+i]) == trp){
                     cout<<keys.size()<<" : "<<ind<<" is a valid key."<<endl;
                     keys.push_back(ind);
                     break;
