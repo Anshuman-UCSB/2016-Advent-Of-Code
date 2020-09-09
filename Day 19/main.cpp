@@ -1,28 +1,38 @@
 #include <iostream>
-#include <vector>
+#include <cmath>
 
 using namespace std;
 
 int main(){
     int inp = 3017957;
-    string trash;
-    vector<int> elves(inp, 1);
-    // elves[0] = 0;
-    int ind = 0;
-    int next;
-    while(true){
-        for(next = (ind+1)%inp;elves[next] == 0;next = (next+1)%inp){}
-        if(ind == next){
-            break;
-        }
-        elves[ind] += elves[next];
-        elves[next] = 0;
-        // cout<<"Elf "<<ind+1<<" stole from "<<next+1<<endl;
-        ind = next;
-        // cin>>trash;
-        for(next = (ind+1)%inp;elves[next] == 0;next = (next+1)%inp){}
-        ind = next;
+    int p = 1;
+    while(3*p < inp){
+        p*=3;
     }
-    cout<<"The final elf is "<<ind+1<<endl;
-
+    if(p == inp){
+        cout<< p<<endl;;
+    }
+    cout<< inp-p+max(inp-2*p, 0)<<endl;
 }
+
+// int main(){
+//     int inp = 3017957;
+//     int winner = 1;
+//     for(int i = 4;i<=inp;i++){
+//         // cout<<pow(i-1,1./3)<<endl;
+//         // cout<<pow(i-1, 1./3) <<endl;
+//         if(log(i-1)/log(3) - int(log(i-1)/log(3)) == 0){
+//             // cout<<i<<endl;
+//             winner = 1;
+//         }else{
+//             winner++;
+//             if(winner*2>i){
+//                 winner++;
+//             }
+//         }
+//         // cout<<"("<<i<<", "<<winner<<")"<<endl;
+        
+//     }
+//     cout<<inp<<" - "<<winner<<endl;
+// }
+//4441591 too high
