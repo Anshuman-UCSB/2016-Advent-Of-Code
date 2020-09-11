@@ -3,6 +3,7 @@
 #include <sstream>
 #include <vector>
 #include <stack>
+#include <algorithm>
 
 using namespace std;
 
@@ -12,6 +13,9 @@ struct word{
     word(string inp){
         for(auto c:inp)
             v.push_back(c);
+    }
+    word(vector<char> old){
+        v = old;
     }
 
     void swapPos(int a, int b){
@@ -115,47 +119,57 @@ void example(word& w){
 }
 
 int main(){
-    fstream file("input");
     string line;
     string s1, s2;
     char c1, c2;
     int i1, i2;
-    word w("abcdefgh");
-    while(getline(file, line)){
-        stringstream ss(line);
-        ss>>s1;
-        if(s1 == "move"){
-            ss>>s1>>i1>>s2>>s2>>i2;
-            // cout<<"moving "<<i1<<" to "<<i2<<endl;
-            w.move(i1, i2);
-        }else if(s1 == "rotate"){
+    vector<char> start = {'a','b','c','d','e','f','g','h'};
+    string st;
+    do{
+        word w(start);
+        st = w.toString();
+        cout<<"base: "<<st<<endl;
+        fstream file("input");
+        while(getline(file, line)){
+            stringstream ss(line);
             ss>>s1;
-            if(s1 == "right"){
-                ss>>i1;
-                w.rotateRight(i1);
-            }else if(s1 == "left"){
-                ss>>i1;
-                w.rotateLeft(i1);
+            if(s1 == "move"){
+                ss>>s1>>i1>>s2>>s2>>i2;
+                // cout<<"moving "<<i1<<" to "<<i2<<endl;
+                w.move(i1, i2);
+            }else if(s1 == "rotate"){
+                ss>>s1;
+                if(s1 == "right"){
+                    ss>>i1;
+                    w.rotateRight(i1);
+                }else if(s1 == "left"){
+                    ss>>i1;
+                    w.rotateLeft(i1);
+                }else{
+                    ss>>s1>>s1>>s1>>s1>>c1;
+                    w.rotateLetter(c1);
+                }
+            }else if(s1 == "swap"){
+                ss>>s1;
+                if(s1 == "letter"){
+                    ss>>c1>>s1>>s2>>c2;
+                    w.swapLetter(c1, c2);
+                }else{
+                    ss>>i1>>s1>>s2>>i2;
+                    w.swapPos(i1, i2);
+                }
+            }else if(s1 == "reverse"){
+                ss>>s1>>i1>>s2>>i2;
+                w.reverse(i1, i2);
             }else{
-                ss>>s1>>s1>>s1>>s1>>c1;
-                w.rotateLetter(c1);
+                cout<<"UH OH "<<line<<endl;
+                exit(1);
             }
-        }else if(s1 == "swap"){
-            ss>>s1;
-            if(s1 == "letter"){
-                ss>>c1>>s1>>s2>>c2;
-                w.swapLetter(c1, c2);
-            }else{
-                ss>>i1>>s1>>s2>>i2;
-                w.swapPos(i1, i2);
-            }
-        }else if(s1 == "reverse"){
-            ss>>s1>>i1>>s2>>i2;
-            w.reverse(i1, i2);
-        }else{
-            cout<<"UH OH "<<line<<endl;
-            exit(1);
         }
         cout<<w.toString()<<endl;
-    }
+        if(w.toString() == "fbgdceah"){
+            cout<<"Part 2 found - "<<st<<endl;
+            exit(1);
+        }
+    } while(next_permutation(start.begin(), start.end()));
 }
