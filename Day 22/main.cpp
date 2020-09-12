@@ -3,7 +3,7 @@
 #include <sstream>
 #include <map>
 #include <utility>
-
+#include <vector>
 #define coord pair<int, int>
 
 using namespace std;
@@ -79,4 +79,32 @@ int main(){
     }
     cout<<"Part 1: "<<part1<<endl;
     //800153 too high
+
+    vector<vector<char>> g;
+    for(int i = 0;i<28;i++){
+        g.push_back(vector<char>(37));
+    }
+    for(auto& p: m){
+        char c;
+        if(p.second.size > 100){
+            c = '#';
+        }else if(p.second.used == 0){
+            c = '_';
+        }else{
+            c = '.';
+        }
+        g[p.first.second][p.first.first] = c;
+    }
+    g[0][31] = 'G';
+    for(auto& r: g){
+        for(auto& c: r){
+            cout<<c;
+        }cout<<endl;
+    }
+
+    // 30 * 5 + 60
+    // 215 too high
+    // 210
+    // 212
+    // 211
 }
