@@ -1,0 +1,19 @@
+a, b = 12
+b--
+d = a
+a = 0
+c = b
+a+=c*d
+b--
+c, d = b
+c += d
+tgl c
+cpy -16 c
+jnz 1 c
+cpy 73 c
+jnz 79 d
+inc a
+inc d
+jnz d -2
+inc c
+jnz c -5

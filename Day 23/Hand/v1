@@ -8,5 +8,20 @@ b--
             c--
             if(c): goto 7
         d--
-        if(d): goto 
-        
+        if(d): goto 6
+    b--
+    c=b
+    d=c
+        d--
+        c++
+        if(d): goto 15
+    tgl c
+    c = -16
+    goto 22
+c = 73
+    (d = 79)
+        a++
+        d++
+        if(d): goto 23
+    c++
+    if(c): goto 22

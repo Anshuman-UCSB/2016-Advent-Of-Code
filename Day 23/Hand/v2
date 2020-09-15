@@ -1,0 +1,28 @@
+a = 12, b = 0, c = 0, d = 0
+b = a
+b--
+    d = a
+    a = 0
+        while(d>0)
+            c = b
+            while(c>0)
+                a++
+                c--
+            d--
+    b--
+    d,c = b
+
+    while(d>0)
+        c++
+        d--
+    tgl c
+    c = -16
+    goto 22
+c = 73
+    while(c<0)
+        d = 79
+        while(d<0)
+            a++
+            d++
+        c++
+
