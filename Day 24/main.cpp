@@ -116,7 +116,7 @@ int main(){
     vector<int> path;
     for(int i = 0;i<=nodes;i++)
         path.push_back(i);
-
+    path.push_back(0);
     int p1 = INT32_MAX;
     vector<int> minPath;
     do{
@@ -128,6 +128,6 @@ int main(){
             p1 = sum;
             minPath = path;
         }
-    }while(next_permutation(path.begin()+1,path.end()));
+    }while(next_permutation(path.begin()+1,path.end()-1));
     cout<<p1<<endl;
 }
