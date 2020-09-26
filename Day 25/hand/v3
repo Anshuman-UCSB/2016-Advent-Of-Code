@@ -1,0 +1,29 @@
+d = a
+
+
+d+=231*11
+
+
+
+while True
+    a = d
+    while a
+        b = a
+        a = 0
+        c = 2
+        jnz b 2
+        jnz 1 6
+        b--
+        c--
+        jnz c -4
+        a++
+        jnz 1 -7
+        b = 2
+        jnz c 2
+        jnz 1 4
+        b--
+        c--
+        jnz 1 -4
+
+        out b
+

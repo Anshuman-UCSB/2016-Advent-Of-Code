@@ -1,0 +1,12 @@
+c = 11;
+b = 231;
+d = a + 231*11
+while true{
+    a = d
+    do{
+        b = a
+        a = int(b/2)
+        b = b%2
+        out b
+    }while(a);
+}

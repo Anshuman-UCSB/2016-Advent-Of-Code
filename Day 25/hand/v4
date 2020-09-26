@@ -1,0 +1,29 @@
+d = a
+
+
+d+=231*11
+
+
+
+while True
+    a = d
+    while a
+        b = a
+        a = 0
+            c = 2
+                if b = 0
+                    goto 21
+                b--
+                c--
+            do while c
+            a++
+
+        b = 2
+                if c = 0
+                    goto 27
+                b--
+                c--
+            do while true
+
+        out b
+

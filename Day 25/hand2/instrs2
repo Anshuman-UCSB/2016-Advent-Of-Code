@@ -1,0 +1,30 @@
+d = a
+c = 11
+b = 231
+d+=b*c
+
+
+
+
+a = d
+
+    b = a
+    a = 0
+        c = 2
+            if b = 0
+                jnz 1 6
+            b--
+            c--
+            jnz c -4
+        a++
+        jnz 1 -7
+    b = 2
+        if c = 0
+            jnz 1 4
+        b--
+        c--
+        jnz 1 -4
+
+    out b
+    jnz a -19
+jnz 1 -21
